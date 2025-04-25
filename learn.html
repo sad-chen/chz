@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>智能学习助手</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        .chat-container {
+            width: 80%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .message {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            margin: 15px 0;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        .message.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            border-left: 4px solid #4e54c8;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .option-btn {
+            padding: 15px 25px;
+            background: linear-gradient(45deg, #4e54c8, #8f94fb);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .option-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .loading {
+            display: inline-block;
+            animation: float 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-area"></div>
+    </div>
+
+    <script>
+        const resources = {
+            'python': '/chz/file/python.html',
+            'java': '/chz/file/java.html'
+        };
+
+        async function showMessage(text, isAI = true, delay = 1000) {
+            const chatArea = document.getElementById('chat-area');
+            const message = document.createElement('div');
+            message.className = `message ${isAI ? 'ai-message' : ''}`;
+            message.innerHTML = text;
+            chatArea.appendChild(message);
+            
+            // 触发动画
+            setTimeout(() => message.classList.add('active'), 50);
+            
+            // 滚动到底部
+            chatArea.scrollTop = chatArea.scrollHeight;
+            
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+
+        function createOptions() {
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-container';
+            
+            Object.keys(resources).forEach(key => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = key;
+                button.onclick = () => selectOption(key);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('chat-area').appendChild(optionsContainer);
+            optionsContainer.classList.add('active');
+        }
+
+        async function selectOption(choice) {
+            await showMessage(`> 已选择：${choice}`, false, 500);
+            await showMessage('<span class="loading">正在跳转到相关的学习路线...</span>');
+            
+            // 添加跳转动画
+            document.querySelector('.chat-container').classList.add('active');
+            
+            setTimeout(() => {
+                window.location.href = resources[choice.toLowerCase()];
+            }, 1500);
+        }
+
+        // 初始化对话
+        (async function initChat() {
+            await showMessage('🤖 <strong>AI学习助手</strong>：欢迎来到智能学习助手！');
+            await showMessage('🤖 <strong>AI学习助手</strong>：请选择您要选择哪个学习计划：');
+            createOptions();
+        })();
+    </script>
+</body>
+</html>

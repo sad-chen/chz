@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园记忆时光廊</title>
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffe66d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #1a1a1a, #2d3436);
+            color: white;
+            font-family: 'Microsoft Yahei', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 粒子背景容器 */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* 图片画廊容器 */
+        .gallery-container {
+            position: relative;
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            perspective: 1000px;
+            z-index: 1;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            z-index: 2;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        /* 悬浮放大效果 */
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        /* 标题样式 */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin: 2rem 0;
+            position: relative;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 动态边框效果 */
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            animation: borderGlow 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { border-color: var(--primary); opacity: 0.5; }
+            50% { border-color: var(--secondary); opacity: 1; }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+		.load-more-btn {
+		    position: relative;
+		    display: block;
+		    width: 240px;
+		    margin: 3rem auto;
+		    padding: 1.2rem;
+		    background: rgba(255, 107, 107, 0.9);
+		    color: white;
+		    border: none;
+		    border-radius: 50px;
+		    font-size: 1.2rem;
+		    cursor: pointer;
+		    overflow: hidden;
+		    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		    z-index: 10;
+		    box-shadow: 0 8px 25px rgba(255,107,107,0.3);
+		}
+		a{
+			text-decoration: none;
+		}
+		.hover-effect {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    width: 300px;
+		    height: 300px;
+		    background: radial-gradient(circle, 
+		        rgba(78, 205, 196, 0.4) 0%, 
+		        rgba(255, 230, 109, 0) 70%);
+		    transform: translate(-50%, -50%);
+		    opacity: 0;
+		    transition: opacity 0.5s;
+		}
+		
+		.load-more-btn:hover {
+		    background: rgba(78, 205, 196, 0.9);
+		    transform: translateY(-5px);
+		    box-shadow: 0 12px 35px rgba(78,205,196,0.4);
+		}
+		
+		.load-more-btn:hover .hover-effect {
+		    opacity: 1;
+		}
+		
+		.btn-text {
+		    position: relative;
+		    z-index: 2;
+		    letter-spacing: 2px;
+		    background: linear-gradient(45deg, #fff, #ffe66d);
+		    -webkit-background-clip: text;
+		    background-clip: text;
+		    -webkit-text-fill-color: transparent;
+		}
+		
+		/* 按钮入场动画 */
+		.gsap-fadeIn {
+		    animation: btnEntrance 1s both;
+		}
+		@keyframes btnEntrance {
+		    from {
+		        opacity: 0;
+		        transform: translateY(30px) scale(0.8);
+		    }
+		    to {
+		        opacity: 1;
+		        transform: translateY(0) scale(1);
+		    }
+		}
+		 .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a1a, #2d3436);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .intro-text {
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+        }
+
+        /* 粒子爆炸效果 */
+        .intro-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        @keyframes particle-explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <h1 class="section-title">记忆碎片</h1>
+    <div class="gallery-container" id="gallery"></div>
+	<a href="/chz/index.html">
+		<button class="load-more-btn" id="loadMore">
+		    <span class="btn-text">返回主页面</span>
+		    <div class="hover-effect"></div>
+		</button>
+	</a>
+    <!-- 第三方库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        const imageList = [
+            "/chz/img/微信图片_20250419085326.jpg",
+            "/chz/img/微信图片_20250419085329.jpg",
+            "/chz/img/微信图片_20250419085331.jpg",
+            "/chz/img/微信图片_20250419092042.jpg",
+            "/chz/img/微信图片_20250419092104.jpg",
+            "/chz/img/微信图片_202504190853251.jpg",
+            "/chz/img/微信图片_202504190853271.jpg",
+            "/chz/img/微信图片_202504190853301.jpg",
+			"/chz/img/微信图片_20250419085324.jpg",
+			"/chz/img/微信图片_20250419085327.jpg",
+			"/chz/img/微信图片_20250419085332.jpg",
+			"/chz/img/微信图片_202504190853221.jpg",
+			"/chz/img/微信图片_20250419085322.jpg",
+			"/chz/img/微信图片_20250419085327.jpg",
+			"/chz/img/IMG_5535.HEIC.JPG"
+        ];
+
+        // 初始化画廊
+        function initGallery() {
+            const container = document.getElementById('gallery');
+            
+            imageList.forEach((src, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                
+                const img = new Image();
+                img.className = 'gallery-image';
+                img.src = src;
+                img.alt = `校园记忆 ${index + 1}`;
+                
+                // 添加加载动画
+                img.onload = () => {
+                    gsap.fromTo(img,
+                        { opacity: 0, scale: 0.9 },
+                        { opacity: 1, scale: 1, duration: 0.8 }
+                    );
+                };
+
+                item.appendChild(img);
+                container.appendChild(item);
+            });
+
+            // 初始化滚动动画
+            gsap.utils.toArray('.gallery-item').forEach((item, i) => {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%"
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    delay: i * 0.1
+                });
+            });
+        }
+
+        // 粒子系统初始化
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: ['#ff6b6b', '#4ecdc4', '#ffe66d'] },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out"
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    resize: true
+                }
+            }
+        });
+
+		
+		
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+            
+            // 视差滚动效果
+            gsap.utils.toArray('.gallery-item').forEach(item => {
+                gsap.to(item, {
+                    yPercent: -15,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: item,
+                        scrub: true
+                    }
+                });
+            });
+        });
+		
+		const observer = new IntersectionObserver((entries) => {
+		    if(entries[0].isIntersecting){
+		        loadMoreImages(++page);
+		    }
+		});
+		
+		observer.observe(document.querySelector('.loader'));
+		
+		const loadBtn = document.getElementById('loadMore');
+		gsap.from(loadBtn, {
+		    scrollTrigger: {
+		        trigger: loadBtn,
+		        start: "top 90%"
+		    },
+		    opacity: 0,
+		    y: 30,
+		    scale: 0.8,
+		    duration: 1
+		});
+		
+		// 示例点击事件（可根据需要扩展功能）
+		loadBtn.addEventListener('click', () => {
+		    gsap.to(loadBtn, {
+		        scale: 0.95,
+		        repeat: 1,
+		        yoyo: true,
+		        duration: 0.3
+		    });
+		    // 这里添加加载更多图片的逻辑
+		});
+    </script>
+</body>
+</html>

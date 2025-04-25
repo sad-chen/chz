@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Python学习路线</title>
+
+    <style>
+
+        :root {
+
+            --primary: #4B8BBE;
+
+            --secondary: #FFD43B;
+
+            --accent: #306998;
+
+        }
+
+
+
+        body {
+
+            margin: 0;
+
+            font-family: 'Segoe UI', sans-serif;
+
+            min-height: 100vh;
+
+            background: #0f0e17;
+
+            color: #fffffe;
+
+            overflow-x: hidden;
+
+        }
+
+
+
+        #particles-js {
+
+            position: fixed;
+
+            width: 100%;
+
+            height: 100%;
+
+            z-index: 0;
+
+        }
+
+
+
+        .container {
+
+            position: relative;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 2rem;
+
+            z-index: 1;
+
+        }
+
+
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 3rem;
+
+            margin: 2rem 0;
+
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            animation: titleGlow 2s ease-in-out infinite alternate;
+
+        }
+
+
+
+        .timeline {
+
+            display: grid;
+
+            gap: 2rem;
+
+            padding: 40px 0;
+
+        }
+
+
+
+        .stage-card {
+
+            background: rgba(255, 255, 255, 0.05);
+
+            border-radius: 15px;
+
+            padding: 2rem;
+
+            backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            transition: 0.3s;
+
+            cursor: pointer;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .stage-card::before {
+
+            content: '';
+
+            position: absolute;
+
+            top: 0;
+
+            left: -100%;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: linear-gradient(
+
+                90deg,
+
+                transparent,
+
+                rgba(255,255,255,0.2),
+
+                transparent
+
+            );
+
+            transition: 0.5s;
+
+        }
+
+
+
+        .stage-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+
+        }
+
+
+
+        .stage-card:hover::before {
+
+            left: 100%;
+
+        }
+
+
+
+        .stage-card h2 {
+
+            color: var(--secondary);
+
+            margin: 0 0 1rem;
+
+            font-size: 1.5rem;
+
+        }
+
+
+
+        .stage-card ul {
+
+            list-style: none;
+
+            padding: 0;
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 1rem;
+
+            max-height: 0;
+
+            overflow: hidden;
+
+            transition: 0.5s;
+
+        }
+
+
+
+        .stage-card .active ul {
+
+            max-height: 500px;
+
+        }
+
+
+
+        .stage-card li {
+
+            padding: 1rem;
+
+            background: rgba(75, 139, 190, 0.1);
+
+            border-radius: 8px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: 0.3s;
+
+        }
+
+
+
+        .stage-card li::before {
+
+            content: '';
+
+            position: absolute;
+
+            left: 0;
+
+            top: 0;
+
+            width: 3px;
+
+            height: 100%;
+
+            background: var(--accent);
+
+            transition: 0.3s;
+
+        }
+
+
+
+        .stage-card li:hover {
+
+            transform: translateX(10px);
+
+            background: rgba(75, 139, 190, 0.2);
+
+        }
+
+
+
+        @keyframes titleGlow {
+
+            from { text-shadow: 0 0 10px var(--primary); }
+
+            to { text-shadow: 0 0 20px var(--secondary); }
+
+        }
+
+
+
+        @media (max-width: 768px) {
+
+            h1 { font-size: 2rem; }
+
+            .stage-card { padding: 1.5rem; }
+
+        }
+		
+		.load-more-btn {
+		    position: relative;
+		    display: block;
+		    width: 240px;
+		    margin: 3rem auto;
+		    padding: 1.2rem;
+		    background: rgba(255, 107, 107, 0.9);
+		    color: white;
+		    border: none;
+		    border-radius: 50px;
+		    font-size: 1.2rem;
+		    cursor: pointer;
+		    overflow: hidden;
+		    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		    z-index: 10;
+		    box-shadow: 0 8px 25px rgba(255,107,107,0.3);
+		}
+		
+		.hover-effect {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    width: 300px;
+		    height: 300px;
+		    background: radial-gradient(circle, 
+		        rgba(78, 205, 196, 0.4) 0%, 
+		        rgba(255, 230, 109, 0) 70%);
+		    transform: translate(-50%, -50%);
+		    opacity: 0;
+		    transition: opacity 0.5s;
+		}
+		
+		.load-more-btn:hover {
+		    background: rgba(78, 205, 196, 0.9);
+		    transform: translateY(-5px);
+		    box-shadow: 0 12px 35px rgba(78,205,196,0.4);
+		}
+		
+		.load-more-btn:hover .hover-effect {
+		    opacity: 1;
+		}
+		
+		.btn-text {
+		    position: relative;
+		    z-index: 2;
+		    letter-spacing: 2px;
+		    background: linear-gradient(45deg, #fff, #ffe66d);
+		    -webkit-background-clip: text;
+		    background-clip: text;
+		    -webkit-text-fill-color: transparent;
+		}
+		
+		/* 按钮入场动画 */
+		.gsap-fadeIn {
+		    animation: btnEntrance 1s both;
+		}
+		
+		@keyframes btnEntrance {
+		    from {
+		        opacity: 0;
+		        transform: translateY(30px) scale(0.8);
+		    }
+		    to {
+		        opacity: 1;
+		        transform: translateY(0) scale(1);
+		    }
+		}
+		a{
+			text-decoration: none;
+		}
+    </style>
+
+</head>
+
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="container">
+
+        <h1>🐍 Python成长之路</h1>
+
+        <div class="timeline" id="timeline"></div>
+
+    </div>
+	
+	<a href="/chz/file/learn.html">
+		<button class="load-more-btn" id="loadMore">
+		    <span class="btn-text">返回选择界面</span>
+		    <div class="hover-effect"></div>
+		</button>
+	</a>
+	
+	
+	<a href="/chz/file/index.html">
+		<button class="load-more-btn" id="loadMore">
+		    <span class="btn-text">返回主页面</span>
+		    <div class="hover-effect"></div>
+		</button>
+	</a>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+
+        particlesJS('particles-js', {
+
+            particles: {
+
+                number: { value: 80 },
+
+                color: { value: '#4B8BBE' },
+
+                shape: { type: 'circle' },
+
+                opacity: { value: 0.5 },
+
+                size: { value: 3 },
+
+                move: {
+
+                    enable: true,
+
+                    speed: 1,
+
+                    direction: 'none',
+
+                    random: false,
+
+                    straight: false,
+
+                    out_mode: 'out',
+
+                    bounce: false
+
+                }
+
+            },
+
+            interactivity: {
+
+                detect_on: 'canvas',
+
+                events: {
+
+                    onhover: { enable: true, mode: 'repulse' },
+
+                    onclick: { enable: true, mode: 'push' },
+
+                    resize: true
+
+                }
+
+            }
+
+        });
+
+
+
+        const stages = [
+
+            {
+
+                title: "编程基础",
+
+                duration: "1-3周",
+
+                icon: "🐣",
+
+                topics: [
+
+                    "Python语法基础",
+
+                    "变量与数据类型",
+
+                    "流程控制语句",
+
+                    "函数与模块",
+
+                    "文件读写操作",
+
+                    "异常处理机制",
+
+                    "PIP包管理"
+
+                ]
+
+            },
+
+            {
+
+                title: "核心进阶",
+
+                duration: "4-6周",
+
+                icon: "📦",
+
+                topics: [
+
+                    "面向对象编程",
+
+                    "装饰器与生成器",
+
+                    "上下文管理器",
+
+                    "正则表达式",
+
+                    "多线程编程",
+
+                    "虚拟环境管理",
+
+                    "单元测试"
+
+                ]
+
+            },
+
+            {
+
+                title: "Web开发",
+
+                duration: "7-9周",
+
+                icon: "🌐",
+
+                topics: [
+
+                    "Flask框架基础",
+
+                    "Django框架核心",
+
+                    "RESTful API设计",
+
+                    "ORM数据库操作",
+
+                    "模板引擎使用",
+
+                    "用户认证系统",
+
+                    "Web安全实践"
+
+                ]
+
+            },
+
+            {
+
+                title: "数据分析",
+
+                duration: "10-12周",
+
+                icon: "📊",
+
+                topics: [
+
+                    "Numpy数值计算",
+
+                    "Pandas数据处理",
+
+                    "Matplotlib可视化",
+
+                    "Seaborn高级绘图",
+
+                    "Jupyter Notebook",
+
+                    "数据清洗技巧",
+
+                    "爬虫开发实践"
+
+                ]
+
+            },
+
+            {
+
+                title: "AI实践",
+
+                duration: "13-15周",
+
+                icon: "🧠",
+
+                topics: [
+
+                    "Scikit-learn基础",
+
+                    "TensorFlow入门",
+
+                    "PyTorch基础",
+
+                    "OpenCV图像处理",
+
+                    "自然语言处理",
+
+                    "模型部署实践",
+
+                    "项目文档编写"
+
+                ]
+
+            },
+
+            {
+
+                title: "项目实战",
+
+                duration: "16-20周",
+
+                icon: "🚀",
+
+                topics: [
+
+                    "自动化办公系统",
+
+                    "数据可视化大屏",
+
+                    "电商数据分析",
+
+                    "智能推荐系统",
+
+                    "Django博客系统",
+
+                    "机器学习应用",
+
+                    "全栈项目部署"
+
+                ]
+
+            }
+
+        ];
+
+
+
+        const timeline = document.getElementById('timeline');
+
+        stages.forEach(stage => {
+
+            const card = document.createElement('div');
+
+            card.className = 'stage-card';
+
+            
+
+            card.innerHTML = `
+
+                <h2>${stage.icon} ${stage.title} <span style="font-size:0.8em;color:var(--primary)">${stage.duration}</span></h2>
+
+                <ul>
+
+                    ${stage.topics.map(topic => `<li>${topic}</li>`).join('')}
+
+                </ul>
+
+            `;
+
+
+
+            card.style.opacity = 0;
+
+            card.style.transform = 'translateY(50px)';
+
+            
+
+            const observer = new IntersectionObserver(entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.style.opacity = 1;
+
+                        entry.target.style.transform = 'translateY(0)';
+
+                    }
+
+                });
+
+            });
+
+
+
+            observer.observe(card);
+
+            timeline.appendChild(card);
+
+        });
+
+
+
+        document.querySelectorAll('.stage-card').forEach(card => {
+
+            card.addEventListener('click', function() {
+
+                this.classList.toggle('active');
+
+            });
+
+        });
+		
+		
+		// JavaScript部分
+		const loadBtn = document.getElementById('loadMore');
+		gsap.from(loadBtn, {
+		    scrollTrigger: {
+		        trigger: loadBtn,
+		        start: "top 90%"
+		    },
+		    opacity: 0,
+		    y: 30,
+		    scale: 0.8,
+		    duration: 1
+		});
+		
+		// 点击动画
+		loadBtn.addEventListener('click', () => {
+		    gsap.to(loadBtn, {
+		        scale: 0.95,
+		        repeat: 1,
+		        yoyo: true,
+		        duration: 0.3
+		    });
+		});
+    </script>
+
+</body>
+
+</html>

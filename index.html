@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈翰哲 - 个人简历</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --light-bg: #f9f9f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', '阿里巴巴普惠体', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            background: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部样式 */
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid white;
+        }
+
+        /* 进度条样式 */
+        .skill-bar {
+            background: #ddd;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 20px;
+        }
+
+        .skill-progress {
+            background: var(--accent-color);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* 响应式网格布局 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 动态效果 */
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+		a{
+			text-decoration:none;
+		}
+		<style>
+		.header {
+		    position: relative;
+		    overflow: hidden;
+		    background: linear-gradient(135deg, 
+		        rgba(44, 62, 80, 0.95),
+		        rgba(52, 73, 94, 0.95)),
+		        linear-gradient(45deg, 
+		            rgba(230, 126, 34, 0.1) 10%,
+		            transparent 30%,
+		            transparent 70%,
+		            rgba(52, 152, 219, 0.1) 90%);
+		    background-blend-mode: overlay;
+		}
+		
+		/* 动态粒子背景 */
+		.header::before {
+		    content: '';
+		    position: absolute;
+		    width: 200%;
+		    height: 200%;
+		    top: -50%;
+		    left: -50%;
+		    background-image: 
+		        linear-gradient(white 1px, transparent 1px),
+		        linear-gradient(90deg, white 1px, transparent 1px);
+		    background-size: 30px 30px;
+		    animation: particleMove 20s linear infinite;
+		    opacity: 0.05;
+		    pointer-events: none;
+		}
+		
+		/* 微光动画 */
+		.header::after {
+		    content: '';
+		    position: absolute;
+		    top: -50%;
+		    left: -50%;
+		    width: 200%;
+		    height: 200%;
+		    background: linear-gradient(
+		        to right,
+		        rgba(255,255,255,0) 0%,
+		        rgba(255,255,255,0.1) 25%,
+		        rgba(255,255,255,0.1) 50%,
+		        rgba(255,255,255,0) 100%
+		    );
+		    transform: rotate(15deg);
+		    animation: shimmer 8s infinite;
+		}
+		
+		@keyframes particleMove {
+		    0% { transform: translate(0, 0); }
+		    100% { transform: translate(30px, 30px); }
+		}
+		
+		@keyframes shimmer {
+		    0% { transform: translateX(-100%) rotate(15deg); }
+		    100% { transform: translateX(100%) rotate(15deg); }
+		}
+		
+		/* 3D立体文字效果 */
+		.header h1 {
+		    text-shadow: 
+		        0 2px 2px rgba(0,0,0,0.3),
+		        0 4px 4px rgba(0,0,0,0.2),
+		        0 6px 6px rgba(0,0,0,0.15);
+		    position: relative;
+		    display: inline-block;
+		    transition: transform 0.3s;
+		}
+		
+		.header h1::after {
+		    content: attr(data-text);
+		    position: absolute;
+		    top: 2px;
+		    left: 2px;
+		    color: rgba(255,255,255,0.2);
+		    z-index: -1;
+		}
+		.header {
+		    --particle-size: 30px;  /* 粒子网格密度 */
+		    --particle-speed: 20s;   /* 粒子动画速度 */
+		    --shimmer-speed: 8s;     /* 微光动画速度 */
+		    --particle-opacity: 0.05;/* 粒子透明度 */
+		}
+		
+		.photo-button {
+		    display: block;
+		    position: relative;
+		    padding: 20px;
+		    margin: 15px 0;
+		    background: linear-gradient(135deg, 
+		        var(--primary-color), 
+		        var(--accent-color));
+		    border-radius: 15px;
+		    color: white;
+		    text-align: center;
+		    overflow: hidden;
+		    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+		    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+		}
+		
+		.photo-button:hover {
+		    transform: translateY(-3px);
+		    box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+		}
+		
+		.hover-effect {
+		    position: absolute;
+		    top: 0;
+		    left: -100%;
+		    width: 100%;
+		    height: 100%;
+		    background: linear-gradient(
+		        90deg,
+		        transparent,
+		        rgba(255,255,255,0.2),
+		        transparent
+		    );
+		    transition: left 0.6s;
+		}
+		
+		.photo-button:hover .hover-effect {
+		    left: 100%;
+		}
+		
+		.sparkles {
+		    width: 40px;
+		    height: 40px;
+		    margin-bottom: 10px;
+		    opacity: 0.8;
+		    animation: sparkle 1.5s ease-in-out infinite;
+		}
+		
+		.sparkle-1 {
+		    fill: #FFD700;
+		    transform-origin: center;
+		    animation: rotate 4s linear infinite;
+		}
+		
+		.sparkle-2 {
+		    fill: #FFFFFF;
+		    transform-origin: center;
+		    animation: rotate 3s linear infinite reverse;
+		}
+		
+		@keyframes sparkle {
+		    0%, 100% { opacity: 0.6; transform: scale(1); }
+		    50% { opacity: 1; transform: scale(1.1); }
+		}
+		
+		@keyframes rotate {
+		    from { transform: rotate(0deg); }
+		    to { transform: rotate(360deg); }
+		}
+		
+		
+		
+		
+		
+		.button-content {
+		    position: relative;
+		    z-index: 1;
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    gap: 8px;
+		}
+		.press-button {
+		    background: #ff9f43;
+		    border-radius: 12px;
+		    border: none;
+		    transition: transform 0.2s;
+		}
+		
+		.shadow {
+		    background: rgba(0,0,0,0.2);
+		    border-radius: 12px;
+		    transition: transform 0.2s;
+		}
+		
+		.press-button:active {
+		    transform: translateY(4px);
+		}
+		
+		.press-button:active .shadow {
+		    transform: translateY(-4px);
+		}
+		
+		.press-button span {
+		    font-weight: bold;
+		    transform: translateZ(20px);
+		    display: block;
+		    transition: transform 0.2s;
+		}
+		
+		.press-button:hover span {
+		    transform: translateZ(30px) scale(1.1);
+		}
+		.cool-btn {
+            position: relative;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cool-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cool-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .cool-btn:hover::before {
+            opacity: 1;
+        }
+
+        .cool-btn:active {
+            transform: translateY(1px);
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255,255,255,0.4);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: rippleEffect 0.6s linear;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes rippleEffect {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+            to {
+                width: 500px;
+                height: 500px;
+                opacity: 0;
+            }
+        }
+		.social-links a{
+			color: white;
+		}
+		
+		 canvas {
+			 border-radius: 50px;
+		            background: #000;
+		            display: block;
+		            margin: 0 auto;
+		        }
+	</style>
+		
+	
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="https://github.com/settings/profile"><img src="/chz/img/u=1639036208,3382934126&fm=253&gp=0.jpg" alt="头像" class="avatar"></a>
+            <h3>陈翰哲</h3>
+            <p>大数据专业</p>
+            <div class="social-links">
+                <a href="https://github.com" target="_blank">GitHub</a> |
+                <a href="https://www.cnblogs.com" target="_blank">博客园</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="grid">
+            <!-- 教育背景 -->
+            <div class="card hidden">
+                <h2>🎓 教育背景</h2>
+                <p>中策职业学校</p>
+                <p>学习课程：Python编程、大数据分析、JAVA、HTML+CSS+JavaScript</p>
+				<a href="/chz/learn.html" class="photo-button press-button" style="background: #b87dcc;">
+				   <button class="cool-btn" id="dynamicBtn" style="background: linear-gradient(45deg, #4cacff, #5ccd73, #d1cc31);">
+				           <span class="btn-text">plan!</span>
+					</button>
+				</a>
+            </div>
+
+            <!-- 技能展示 -->
+            <div class="card hidden">
+                <h2>🏫 校园时光</h2>
+				<p>我的校园时光，是教室、图书馆、操场等场景的记忆交织，既有为学业拼搏的奋斗，也有与同窗相伴的欢乐 。</p>
+                <a href="/chz/main.html" target="_blank" class="photo-button" >
+                    <div class="button-content">
+                        <svg class="sparkles" viewBox="0 0 100 100">
+                            <path d="M20,50 L40,30 L60,50 L40,70 Z" class="sparkle-1"/>
+                            <path d="M50,20 L70,40 L50,60 L30,40 Z" class="sparkle-2"/>
+                        </svg>
+                        <span>点击探索校园记忆</span>
+                        <div class="hover-effect"></div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 项目经验 -->
+        <section class="card hidden">
+            <h2>🚀 学习知识</h2>
+            <a href="/chz/note.html" class="photo-button press-button">
+               <button class="cool-btn" id="dynamicBtn">
+                       <span class="btn-text">Study!</span>
+				</button>
+            </a>
+        </section>
+		
+		<section class="card hidden" style="margin-top: 0px;">
+			<h2>🏀篮球</h2>
+			<canvas id="court" ></canvas>
+		</section>
+		
+		<!-- <section class="card hidden">
+		    <h2>📖未来规划</h2>
+		    
+		</section> -->
+    </main>
+
+    <script>
+        // 滚动动画触发
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // 进度条动画
+                    const progressBars = entry.target.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        bar.style.width = targetWidth;
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+
+        // 项目详情切换
+        function toggleDetails(btn) {
+            const details = btn.previousElementSibling;
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+            btn.textContent = details.style.display === 'none' ? '小目标' : '收起小目标';
+        }
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.style.opacity = 1;
+        });
+		
+		let page = 1;
+
+		 const btn = document.getElementById('dynamicBtn');
+		        
+		        // 添加渐变流动动画
+		        btn.style.animation = 'gradientFlow 8s ease infinite';
+		
+		        // 涟漪点击效果
+		        btn.addEventListener('click', function(e) {
+		            const ripple = document.createElement('div');
+		            ripple.className = 'ripple';
+		            ripple.style.left = e.offsetX + 'px';
+		            ripple.style.top = e.offsetY + 'px';
+		            this.appendChild(ripple);
+		            
+		            setTimeout(() => ripple.remove(), 600);
+		        });
+		
+		        // 动态颜色变化
+		        let hue = 0;
+		        setInterval(() => {
+		            hue = (hue + 1) % 360;
+		            btn.style.setProperty('--hue', hue);
+		        }, 50);
+		
+		        btn.addEventListener('mouseleave', () => {
+		            btn.style.transform = 'translateY(0)';
+		        });
+				
+				 const canvas = document.getElementById('court');
+				        const ctx = canvas.getContext('2d');
+				        
+				        // 设置画布尺寸
+				        canvas.width = 800;
+				        canvas.height = 600;
+				
+				        // 篮球属性
+				        const ball = {
+				            x: canvas.width/2,
+				            y: 100,
+				            radius: 30,
+				            speedX: 5,
+				            speedY: 0,
+				            gravity: 0.5,
+				            bounce: -0.7,
+				            rotation: 0
+				        };
+				
+				        // 拖尾粒子数组
+				        let particles = [];
+				        const maxParticles = 20;
+				
+				        // 颜色数组
+				        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD'];
+				
+				        class Particle {
+				            constructor(x, y) {
+				                this.x = x;
+				                this.y = y;
+				                this.size = Math.random() * 5 + 2;
+				                this.speedX = (Math.random() - 0.5) * 3;
+				                this.speedY = (Math.random() - 0.5) * 3;
+				                this.color = colors[Math.floor(Math.random() * colors.length)];
+				                this.alpha = 1;
+				            }
+				
+				            update() {
+				                this.x += this.speedX;
+				                this.y += this.speedY;
+				                this.alpha -= 0.03;
+				            }
+				
+				            draw() {
+				                ctx.save();
+				                ctx.globalAlpha = this.alpha;
+				                ctx.beginPath();
+				                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+				                ctx.fillStyle = this.color;
+				                ctx.fill();
+				                ctx.restore();
+				            }
+				        }
+				
+				        function drawBasketball(x, y, rotation) {
+				            // 篮球主体
+				            const gradient = ctx.createRadialGradient(x, y, 5, x, y, ball.radius);
+				            gradient.addColorStop(0, '#FF8C00');
+				            gradient.addColorStop(1, '#FF4500');
+				            
+				            ctx.save();
+				            ctx.translate(x, y);
+				            ctx.rotate(rotation);
+				            
+				            // 绘制篮球
+				            ctx.beginPath();
+				            ctx.arc(0, 0, ball.radius, 0, Math.PI * 2);
+				            ctx.fillStyle = gradient;
+				            ctx.fill();
+				            
+				            // 篮球条纹
+				            ctx.strokeStyle = '#000';
+				            ctx.lineWidth = 2;
+				            ctx.beginPath();
+				            ctx.arc(0, 0, ball.radius, 0, Math.PI);
+				            ctx.stroke();
+				            
+				            ctx.beginPath();
+				            ctx.moveTo(-ball.radius * 0.6, 0);
+				            ctx.lineTo(ball.radius * 0.6, 0);
+				            ctx.stroke();
+				            
+				            ctx.restore();
+				        }
+				
+				        function animate() {
+				            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+				            ctx.fillRect(0, 0, canvas.width, canvas.height);
+				
+				            // 更新篮球位置
+				            ball.speedY += ball.gravity;
+				            ball.x += ball.speedX;
+				            ball.y += ball.speedY;
+				            ball.rotation += ball.speedX * 0.05;
+				
+				            // 边界碰撞检测
+				            if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+				                ball.speedX *= -1;
+				            }
+				            
+				            if (ball.y + ball.radius > canvas.height) {
+				                ball.y = canvas.height - ball.radius;
+				                ball.speedY *= ball.bounce;
+				                createImpactParticles();
+				            }
+				
+				            // 添加拖尾粒子
+				            particles.push(new Particle(ball.x, ball.y));
+				            if (particles.length > maxParticles) {
+				                particles.shift();
+				            }
+				
+				            // 更新并绘制粒子
+				            particles.forEach((particle, index) => {
+				                particle.update();
+				                particle.draw();
+				                if (particle.alpha <= 0) {
+				                    particles.splice(index, 1);
+				                }
+				            });
+				
+				            // 绘制篮球
+				            drawBasketball(ball.x, ball.y, ball.rotation);
+				
+				            requestAnimationFrame(animate);
+				        }
+				
+				        function createImpactParticles() {
+				            for (let i = 0; i < 10; i++) {
+				                particles.push(new Particle(ball.x, ball.y));
+				            }
+				        }
+				
+				        // 点击重置动画
+				        canvas.addEventListener('click', () => {
+				            ball.x = canvas.width/2;
+				            ball.y = 100;
+				            ball.speedX = 5;
+				            ball.speedY = 0;
+				            particles = [];
+				        });
+				
+				        animate();
+    </script>
+</body>
+</html>
